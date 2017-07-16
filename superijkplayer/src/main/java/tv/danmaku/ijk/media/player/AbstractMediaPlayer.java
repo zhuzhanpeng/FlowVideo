@@ -16,6 +16,9 @@
 
 package tv.danmaku.ijk.media.player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractMediaPlayer implements IMediaPlayer {
     private OnPreparedListener mOnPreparedListener;
     private OnCompletionListener mOnCompletionListener;
@@ -101,6 +104,27 @@ public abstract class AbstractMediaPlayer implements IMediaPlayer {
     protected final boolean notifyOnInfo(int what, int extra) {
         if (mOnInfoListener != null)
             return mOnInfoListener.onInfo(this, what, extra);
+        if(null != onInfoListenerList&&0!=onInfoListenerList.size()){
+            for (OnInfoListener item :
+                    onInfoListenerList) {
+                item.onInfo(this, what, extra);
+            }
+        }
         return false;
     }
+    private List<OnInfoListener> onInfoListenerList = new ArrayList<>();
+    public void addOnInfoListener(OnInfoListener onInfoListener){
+        onInfoListenerList.add(onInfoListener);
+    }
+    public void removeLastInfoListener(){
+        int len = onInfoListenerList.size();
+        if(len>1){
+            onInfoListenerList.remove(len-1);
+        }else if(len==1){
+            onInfoListenerList.remove(0);
+        }
+
+    }
+    public boolean isBuffering = false;
+    public boolean isPrepared = false;
 }

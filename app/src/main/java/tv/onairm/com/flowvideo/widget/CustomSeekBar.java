@@ -1,4 +1,4 @@
-package tv.onairm.com.flowvideo;
+package tv.onairm.com.flowvideo.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
